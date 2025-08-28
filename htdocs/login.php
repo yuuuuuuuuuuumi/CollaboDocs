@@ -22,3 +22,5 @@
 <input type="submit" value="新規登録">
 </form>
 <p>すでに登録済みの方は<a href="login.php">こちら</a></p>
+
+
