@@ -1,0 +1,112 @@
+/* グローバルスタイル */
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f2f5;
+}
+
+/* コンテナのスタイル */
+.container {
+    width: 80%;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* エディタのスタイル */
+#editor {
+    height: 300px; /* エディタの高さを設定 */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* タイトルのスタイル */
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* ボタンコンテナのスタイル */
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* ボタンのスタイル */
+#saveButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* ホバー時のボタンのスタイル */
+#saveButton:hover {
+    background-color: #0056b3;
+}
+
+/* --- ログイン画面のスタイル --- */
+.login-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+.login-container h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+.login-container input[type="text"],
+.login-container input[type="password"], 
+.login-container input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.login-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+.login-container button:hover {
+    background-color: #0056b3;
+}
+.error-message {
+    color: red;
+    margin-bottom: 10px;
+    text-align: left;
+}
+.links a {
+    color: #007BFF;
+    text-decoration: none;
+    font-size: 14px;
+    margin: 0 5px;
+}
+
+/* --- 新規登録画面のスタイル --- */
+/* ログイン画面のスタイルを流用するため、特別に追加するスタイルは最小限で済みます */
+.error-messages {
+    /* 複数のエラーメッセージをグループ化するためのコンテナ */
+    margin-bottom: 10px;
+}
