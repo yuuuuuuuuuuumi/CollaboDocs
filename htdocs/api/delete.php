@@ -15,7 +15,7 @@ if (!$doc_id) {
 }
 
 try {
-    // D: ドキュメント削除
+    // ドキュメント削除
     // 権限チェックを兼ねた削除クエリ
     $stmt = $pdo->prepare("DELETE FROM documents WHERE doc_id = :doc_id AND author_id = :user_id");
     $stmt->execute(['doc_id' => $doc_id, 'user_id' => $user_id]);

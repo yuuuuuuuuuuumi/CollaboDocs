@@ -1,0 +1,85 @@
+/* diff.css - 差分確認画面専用 */
+
+.diff-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.diff-box {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+/* 1行ずつのスタイル */
+.line {
+    padding: 4px 15px;
+    min-height: 1.8em;
+    border-bottom: 1px solid #f9f9f9;
+}
+
+/* 削除された行（赤：過去にはあったが今は消えた） */
+.deleted {
+    background-color: #ffeef0;
+    color: #b31d28;
+}
+
+/* 追加された行（緑：過去にはなかったが今増えた） */
+.added {
+    background-color: #e6ffed;
+    color: #22863a;
+}
+
+/* 凡例（説明ガイド） */
+.label-guide {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+    font-size: 13px;
+}
+
+.guide-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.box {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+}
+
+/* 下部ボタンエリア */
+.action-bar {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-restore {
+    background: #28a745;
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn-restore:hover {
+    background: #218838;
+}
+
+.btn-cancel {
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+}

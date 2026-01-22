@@ -1,12 +1,14 @@
 <?php
-// session_start() は認証を使う全てのファイルで必要なので、ここで実行
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
 // docker-compose.ymlのサービス名と環境変数を使用
 define('DB_HOST', 'mysql'); 
-define('DB_NAME', 'your_actual_database_name'); // ★実際のDB名に置き換え
+define('DB_NAME', 'collabo_docs'); 
 define('DB_USER', 'root'); 
 define('DB_PASS', 'password'); // docker-compose.ymlのMYSQL_ROOT_PASSWORD
 

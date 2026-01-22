@@ -48,7 +48,6 @@ $user_stmt = $pdo->prepare("SELECT username FROM users WHERE user_id = :user_id"
 $user_stmt->execute(['user_id' => $user_id]);
 $current_user = $user_stmt->fetchColumn();
 
-// --- HTMLとJavaScriptの出力 ---
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -56,35 +55,28 @@ $current_user = $user_stmt->fetchColumn();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ドキュメント編集: <?php echo htmlspecialchars($document_data['title']); ?></title>
-    <link href="style.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet"> <link href="edit.css" rel="stylesheet">
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <style>
-        .title-input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            font-size: 24px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        .header-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
         <div class="header-controls">
             <div>
-                <a href="document_list.php">← ドキュメント一覧へ戻る</a>
-            </div>
-            <div>
                 <span>ようこそ、<?php echo htmlspecialchars($current_user ?? 'ユーザー'); ?>さん</span>
             </div>
+        </div>
+
+        <div class="header-controls">
+            <div>
+                <a href="document_list.php" class="back-link">← ドキュメント一覧へ戻る</a>
+        
+                <?php if ($doc_id): ?>
+                    <a href="document_versions.php?doc_id=<?php echo htmlspecialchars($doc_id); ?>" class="history-link">
+                        📜 履歴を見る
+                    </a>
+                <?php endif; ?>
+            </div>
+    
         </div>
 
         <input type="text" id="documentTitle" class="title-input" 
@@ -124,7 +116,6 @@ $current_user = $user_stmt->fetchColumn();
         // 既存のコンテンツをエディタにセット (HTML形式と想定)
         if (INITIAL_CONTENT) {
             // HTMLをDelta形式に変換してセットするか、直接HTMLをセットする
-            // Quill.jsはDelta形式を推奨しますが、ここではシンプルなHTML挿入の例
             const delta = quill.clipboard.convert(INITIAL_CONTENT);
             quill.setContents(delta);
         }
@@ -163,9 +154,8 @@ $current_user = $user_stmt->fetchColumn();
                     saveStatus.textContent = '保存済み (' + new Date().toLocaleTimeString() + ')';
                     // 新規作成が成功したら、URLをdoc_id付きに更新して編集モードへ移行 (重要)
                     if (!DOC_ID && result.doc_id) {
-                        window.history.pushState({}, '', `document_edit.php?doc_id=${result.doc_id}`);
-                        // ページのリロードなしで、DOC_IDの値を更新する処理が必要だが、
-                        // シンプルにするため、ここではリロードしないまま続行する
+                        // ID付きのURLにリダイレクトして、履歴ボタンを表示
+                        window.location.href = `document_edit.php?doc_id=${result.doc_id}`;
                     }
                 } else {
                     saveStatus.textContent = '保存エラー: ' + result.error;

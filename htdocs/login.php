@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+require_once 'db_connect.php';
+
+
 // エラーメッセージを初期化
 $error_message = '';
 
@@ -11,38 +14,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     // 簡単な入力チェック
-    if (empty($username_or_email) || empty($password)) {
-        $error_message = 'ユーザー名とパスワードを入力してください。';
-    } else {
-        // ここにデータベース接続と認証処理を記述
-        // 例: データベースからユーザーを取得し、パスワードを検証
-        // この例では、認証成功をシミュレート
-        
-        // 実際には以下のような処理が必要:
-        // 1. MySQLに接続
-        require_once 'db_connect.php';
+    if (!empty($username_or_email) && !empty($password)) {
+        try {
+            // データベースからユーザーを取得
+            $stmt = $pdo->prepare("SELECT user_id, password_hash FROM users WHERE username = :input OR email = :input");
+            $stmt->execute(['input' => $username_or_email]);
+            $user = $stmt->fetch();
 
-        // 2. SQLクエリでユーザーを取得
-        $stmt = $pdo->prepare("SELECT user_id, password_hash FROM users WHERE username = :input OR email = :input");
-        $stmt->execute(['input' => $username_or_email]);
-        $user = $stmt->fetch();
+            session_unset();
 
-        // 3. password_verify() でハッシュ化されたパスワードを検証
-        if ($user && password_verify($password, $user['password_hash'])) {
-            // 認証成功
-            $_SESSION['user_id'] = $user['user_id']; // ユーザーIDをセッションに保存
-            header('Location: document_list.php'); // ドキュメント一覧画面へリダイレクト
-            exit;
-        } else {
-            $error_message = 'ユーザー名またはパスワードが正しくありません。';
-        }
-        // シミュレーション: 認証が成功した場合
-        if ($username_or_email === 'test' && $password === 'password') {
-            $_SESSION['user_id'] = 1; // ユーザーIDをセッションに保存
-            header('Location: document_list.php'); // ドキュメント一覧画面へリダイレクト
-            exit;
-        } else {
-            $error_message = 'ユーザー名またはパスワードが正しくありません。';
+            // パスワードを検証
+            if ($user && password_verify($password, $user['password_hash'])) {
+                // --- 認証成功 ---
+                
+                // セッションハイジャック対策：ログイン時にIDを新しく作り直す
+                session_regenerate_id(true);
+                
+                // データベースから取得した「その人固有のID」をセッションに保存
+                $_SESSION['user_id'] = $user['user_id']; 
+                
+                header('Location: document_list.php');
+                exit;
+            } else {
+                // --- 認証失敗 ---
+                $error_message = 'ユーザー名またはパスワードが正しくありません。';
+            }
+
+        } catch (PDOException $e) {
+            $error_message = 'エラーが発生しました。しばらくしてからやり直してください。';
         }
     }
 }
@@ -71,7 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
         
         <div class="links">
-            <p><a href="#">パスワードを忘れた場合(おまけ)</a></p>
             <p><a href="signup.php">新規登録</a></p>
         </div>
     </div>
