@@ -72,8 +72,8 @@ try {
         
         <div class="diff-box">
             <?php
-            $i = 0; // 旧インデックス
-            $j = 0; // 新インデックス
+            $i = 0; 
+            $j = 0; 
             
             while ($i < count($oldLines) || $j < count($newLines)) {
                 // 1. 両方の行が存在し、一致する場合
@@ -81,13 +81,12 @@ try {
                     echo "<div class='line'>" . htmlspecialchars($oldLines[$i]) . "</div>";
                     $i++; $j++;
                 } 
-                // 2. 変更がある場合（ペアで表示）
+                // 変更がある場合（ペアで表示）
                 else {
-                    // 片方または両方の行を「変更ペア」として表示
                     if (isset($oldLines[$i]) && isset($newLines[$j])) {
                         // 次に一致する場所があるかチェック
                         $foundMatch = false;
-                        for($k = 1; $k < 5; $k++) { // 5行先まで一致を探す
+                        for($k = 1; $k < 5; $k++) { 
                             if (isset($oldLines[$i+$k]) && isset($newLines[$j]) && $oldLines[$i+$k] === $newLines[$j]) {
                                 $foundMatch = "old_moved"; break;
                             }
@@ -109,12 +108,12 @@ try {
                             $j++;
                         }
                     } 
-                    // 3. 旧データのみ残っている場合
+                    // 旧データのみ残っている場合
                     else if (isset($oldLines[$i])) {
                         echo "<div class='line deleted'>" . htmlspecialchars($oldLines[$i]) . "</div>";
                         $i++;
                     } 
-                    // 4. 新データのみ残っている場合
+                    // 新データのみ残っている場合
                     else if (isset($newLines[$j])) {
                         echo "<div class='line added'>" . htmlspecialchars($newLines[$j]) . "</div>";
                         $j++;
